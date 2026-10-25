@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Input teks reusable berbasis TextFormField.
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -32,7 +33,7 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
           border: const OutlineInputBorder(),
           filled: true,
-          fillColor: Colors.grey[50],
+          fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         ),
         obscureText: obscureText,
         keyboardType: keyboardType,

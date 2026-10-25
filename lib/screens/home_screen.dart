@@ -5,14 +5,33 @@ import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  void _openProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ProfileScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = UserProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          // Tombol ganti tema (Latihan 1)
+          IconButton(
+            icon: Icon(
+              provider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+            ),
+            tooltip: provider.isDarkMode ? 'Mode terang' : 'Mode gelap',
+            onPressed: () => UserProvider.read(context).toggleTheme(),
+          ),
+        ],
       ),
       body: provider.isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -45,31 +64,35 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => _openProfile(context),
                         icon: const Icon(Icons.person),
                         label: const Text('Lihat Profil'),
                       ),
                     ] else ...[
                       ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => _openProfile(context),
                         icon: const Icon(Icons.login),
                         label: const Text('Login / Daftar'),
                       ),
                     ],
+                    const SizedBox(height: 32),
+
+                    // Counter kunjungan (Latihan 2)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.visibility,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Aplikasi sudah dibuka ${provider.visitCount} kali',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
